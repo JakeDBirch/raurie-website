@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Raurie Birch, Psy.D. — Psychological Services | Missoula, Montana</title>
+<meta name="description" content="Warm, collaborative therapy for adolescents and adults in Missoula, Montana. In-person and telehealth, in-network with major insurance, and available in 40+ states through PsyPACT. Accepting new clients." />
+
+<!-- ============ OPEN GRAPH (link previews) ============ -->
+<meta property="og:title" content="Raurie Birch, Psy.D. — Psychological Services" />
+<meta property="og:description" content="Warm, collaborative therapy for adolescents and adults in Missoula, Montana. In-person & telehealth. Accepting new clients." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.drrauriebirch.com/" />
+<meta property="og:image" content="https://www.drrauriebirch.com/office.jpg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<!-- Leaflet (clean, keyless map with no commercial POI icons) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+
+<style>
+  :root {
+    --cream:        #F6F1EA;
+    --surface:      #FCFAF6;
+    --ink:          #2E3A34;
+    --ink-soft:     #515C54;
+    --muted:        #6E7A72;
+    --sage:         #6E9384;
+    --sage-deep:    #4F6E60;
+    --sage-tint:    #EAEFE9;
+    --sage-line:    #DBE2D8;
+    --rose:         #C9A395;
+    --rose-text:    #9C6B5A;
+    --rose-tint:    #F3E5DF;
+    --rose-line:    #E6CFC5;
+    --sand:         #F0EAE0;
+    --sand-deep:    #E4DACB;
+    --border:       #E8DFD1;
+    --eyebrow:      #A88E78;
+    --maxw: 1060px;
+    --radius: 16px;
+    --btn-radius: 8px;
+    --shadow-soft: 0 1px 2px rgba(46,58,52,.03), 0 14px 36px -22px rgba(46,58,52,.20);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Hanken Grotesk', system-ui, sans-serif;
+    background: var(--cream);
+    color: var(--ink-soft);
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: 'Fraunces', Georgia, serif; font-weight: 500; color: var(--ink); letter-spacing: -0.01em; line-height: 1.15; }
+  a { color: var(--sage-deep); }
+  img { max-width: 100%; display: block; }
+  em { font-style: italic; color: var(--rose-text); }
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+
+  /* ---------- hero load animation ---------- */
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  .rise { opacity: 0; animation: rise 0.8s cubic-bezier(.16,1,.3,1) forwards; }
+  .d1 { animation-delay: .05s; } .d2 { animation-delay: .18s; } .d3 { animation-delay: .32s; } .d4 { animation-delay: .46s; }
+
+  /* ---------- scroll reveal ---------- */
+  .reveal {
+    opacity: 0; transform: translateY(26px);
+    transition: opacity .9s cubic-bezier(.16,1,.3,1) var(--d, 0s),
+                transform .9s cubic-bezier(.16,1,.3,1) var(--d, 0s);
+    will-change: opacity, transform;
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise, .reveal { animation: none !important; opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
+
+  /* ---------- nav ---------- */
+  header.nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(252,250,246,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; padding: 16px 28px; max-width: var(--maxw); margin: 0 auto; }
+  .brand { font-family: 'Fraunces', serif; font-size: 18px; font-weight: 500; color: var(--ink); text-decoration: none; }
+  .nav-links { display: flex; gap: 28px; align-items: center; }
+  .nav-links a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: var(--ink); }
+  .btn {
+    display: inline-block; font-size: 14px; font-weight: 500;
+    padding: 12px 24px; border-radius: var(--btn-radius); text-decoration: none;
+    transition: transform .15s ease, background .2s ease; cursor: pointer; border: none;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn-sage { background: var(--sage); color: var(--surface); }
+  .btn-sage:hover { background: var(--sage-deep); }
+  .btn-rose { background: transparent; border: 1px solid var(--rose); color: var(--rose-text); }
+  .btn-rose:hover { background: var(--rose-tint); }
+  .btn-ghost { font-size: 13px; padding: 9px 18px; border: 1px solid var(--sand-deep); color: var(--ink); border-radius: var(--btn-radius); text-decoration: none; transition: background .2s; }
+  .btn-ghost:hover { background: var(--sand); }
+  .nav-toggle { display: none; background: none; border: none; font-size: 26px; color: var(--ink); cursor: pointer; line-height: 1; }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 96px 0 84px; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 300px; gap: 68px; align-items: center; }
+  .eyebrow { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--eyebrow); margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(36px, 5vw, 54px); margin-bottom: 24px; }
+  .hero .lede { font-size: 18px; max-width: 440px; margin-bottom: 34px; color: var(--ink-soft); }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+  /* headshot frame */
+  .photo-frame {
+    aspect-ratio: 4/5; border-radius: 18px; overflow: hidden; position: relative;
+    background: var(--sand); box-shadow: 0 0 0 8px var(--surface), 0 30px 60px -34px rgba(46,58,52,.45);
+  }
+  .photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-ph { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--eyebrow); }
+  .photo-ph svg { width: 44px; height: 44px; opacity: .55; }
+  .photo-ph span { font-size: 12px; letter-spacing: .04em; }
+
+  /* ---------- trust strip ---------- */
+  .strip { background: var(--sage-tint); }
+  .strip-inner { display: grid; grid-template-columns: repeat(4, 1fr); max-width: var(--maxw); margin: 0 auto; padding: 0 28px; }
+  .strip-item { padding: 26px 14px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .strip-item:first-child { align-items: flex-start; text-align: left; padding-left: 0; }
+  .strip-item:last-child { align-items: flex-end; text-align: right; padding-right: 0; }
+  .strip-item svg { width: 22px; height: 22px; color: var(--sage); }
+  .strip-item span { font-size: 13px; color: var(--sage-deep); font-weight: 500; line-height: 1.35; }
+
+  /* ---------- sections ---------- */
+  section { padding: 104px 0; }
+  .sand-bg { background: #EFE5D3; }
+  .label { font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--eyebrow); margin-bottom: 20px; }
+  .section-title { font-size: clamp(28px, 3.5vw, 40px); margin-bottom: 30px; }
+
+  .about-grid { display: grid; grid-template-columns: 1.6fr 1fr; gap: 64px; align-items: start; }
+  .about-grid p { font-size: 17px; margin-bottom: 18px; }
+  .card { background: var(--surface); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow-soft); }
+  .cred-avatar { width: 54px; height: 54px; border-radius: 50%; background: var(--sand-deep); display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-size: 18px; color: var(--rose-text); margin-bottom: 16px; }
+  .cred-name { font-family: 'Fraunces', serif; font-size: 19px; color: var(--ink); }
+  .cred-title { font-size: 14px; color: var(--muted); margin-bottom: 18px; }
+  .cred-row { display: flex; align-items: center; gap: 11px; font-size: 14px; color: var(--ink-soft); padding: 7px 0; }
+  .cred-row svg { width: 16px; height: 16px; color: var(--eyebrow); flex-shrink: 0; }
+  .cred-row a { color: var(--ink-soft); text-decoration: none; }
+  .cred-row a:hover { color: var(--sage-deep); }
+
+  /* steps */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .step { background: var(--surface); border-radius: var(--radius); padding: 32px; box-shadow: var(--shadow-soft); }
+  .step-num { width: 36px; height: 36px; border-radius: 50%; background: var(--sage-tint); color: var(--sage-deep); font-family: 'Fraunces', serif; font-size: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+  .step h3 { font-size: 20px; margin-bottom: 10px; }
+  .step p { font-size: 15px; color: var(--muted); }
+
+  /* services — quiet columned list */
+  .services-intro { font-size: 17px; color: var(--ink-soft); max-width: 600px; margin-bottom: 36px; }
+  .areas { columns: 3; column-gap: 44px; list-style: none; }
+  .areas li { display: flex; gap: 12px; align-items: baseline; padding: 9px 0; font-size: 15.5px; color: var(--ink-soft); break-inside: avoid; }
+  .areas li::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: var(--sage); flex-shrink: 0; transform: translateY(-2px); }
+
+  /* insurance */
+  .ins-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 56px; align-items: start; }
+  .ins-copy p { font-size: 17px; margin-bottom: 18px; }
+  .ins-list { background: var(--surface); border-radius: var(--radius); padding: 30px; box-shadow: var(--shadow-soft); }
+  .ins-list h3 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--eyebrow); font-family: 'Hanken Grotesk', sans-serif; font-weight: 600; margin-bottom: 18px; }
+  .ins-items { columns: 2; column-gap: 28px; list-style: none; }
+  .ins-items li { font-size: 14.5px; color: var(--ink-soft); padding: 6px 0; break-inside: avoid; }
+  .psypact { margin-top: 30px; padding: 22px 24px; background: var(--sage-tint); border-radius: var(--radius); display: flex; align-items: center; gap: 16px; }
+  .psypact svg { width: 26px; height: 26px; color: var(--sage); flex-shrink: 0; }
+  .psypact p { font-size: 15px; color: var(--sage-deep); }
+  .psypact a { font-weight: 600; color: var(--sage-deep); white-space: nowrap; }
+
+  /* FAQ — smooth, exclusive accordion */
+  .faq { max-width: 780px; }
+  .faq-item { background: var(--surface); border-radius: var(--radius); margin-bottom: 14px; box-shadow: var(--shadow-soft); overflow: hidden; }
+  .faq-q {
+    width: 100%; text-align: left; background: none; border: none; cursor: pointer;
+    font-family: 'Fraunces', serif; font-size: 18px; color: var(--ink);
+    padding: 22px 26px; display: flex; justify-content: space-between; align-items: center; gap: 18px;
+  }
+  .faq-q:focus-visible { outline: 2px solid var(--sage); outline-offset: -3px; border-radius: var(--radius); }
+  .faq-icon { position: relative; width: 16px; height: 16px; flex-shrink: 0; }
+  .faq-icon::before, .faq-icon::after { content: ''; position: absolute; left: 0; top: 50%; width: 16px; height: 1.5px; background: var(--sage); transform: translateY(-50%); transition: transform .3s cubic-bezier(.4,0,.2,1); }
+  .faq-icon::after { transform: translateY(-50%) rotate(90deg); }
+  .faq-item.open .faq-icon::after { transform: translateY(-50%) rotate(0deg); }
+  .faq-a { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s cubic-bezier(.4,0,.2,1); }
+  .faq-item.open .faq-a { grid-template-rows: 1fr; }
+  .faq-a-inner { overflow: hidden; min-height: 0; }
+  .faq-a-text { padding: 0 26px 24px; font-size: 16px; color: var(--ink-soft); }
+  .faq-a-text a { color: var(--sage-deep); }
+
+  /* CTA */
+  .cta { background: var(--sage); text-align: center; }
+  .cta h2 { color: var(--surface); font-size: clamp(28px, 3.5vw, 40px); margin-bottom: 14px; }
+  .cta p { color: #DCE7DF; font-size: 17px; margin-bottom: 32px; }
+  .cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+  .btn-light { background: var(--surface); color: var(--sage-deep); }
+  .btn-light:hover { background: #fff; }
+  .btn-outline { background: transparent; border: 1px solid #A9C2B4; color: var(--surface); }
+  .btn-outline:hover { background: rgba(255,255,255,.1); }
+
+  /* CTA: office photo (dominant) + map matched to its height */
+  .cta-cols { display: grid; grid-template-columns: 1.8fr 1fr; grid-template-rows: auto auto; column-gap: 26px; row-gap: 13px; align-items: stretch; max-width: 960px; margin: 46px auto 0; }
+  .cta-tile { border-radius: var(--radius); overflow: hidden; background: var(--sand); box-shadow: 0 0 0 7px rgba(255,255,255,.10), 0 26px 50px -28px rgba(0,0,0,.6); }
+  .cta-tile--photo { grid-column: 1; grid-row: 1; aspect-ratio: 3/2; align-self: start; }
+  .cta-tile--map { grid-column: 2; grid-row: 1; }              /* no aspect: stretches to match photo height */
+  .cta-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cta-ph { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--eyebrow); background: var(--sand); }
+  .cta-ph svg { width: 38px; height: 38px; opacity: .55; }
+  .cta-map { width: 100%; height: 100%; }
+  .cta-tile--map .leaflet-tile-pane { filter: grayscale(1); }   /* B&W tiles, colored pin stays */
+  .leaflet-container { background: #e9e6e0; font-family: inherit; }
+  .cta-cap { font-size: 13px; color: #DCE7DF; letter-spacing: .01em; align-self: start; }
+  .cta-cap--photo { grid-column: 1; grid-row: 2; }
+  .cta-cap--map { grid-column: 2; grid-row: 2; }
+  .cta-cap strong { color: var(--surface); font-weight: 600; }
+  @media (max-width: 860px) {
+    .cta-cols { grid-template-columns: 1fr; max-width: 440px; column-gap: 0; row-gap: 12px; }
+    .cta-tile--photo { grid-column: 1; grid-row: 1; }
+    .cta-cap--photo  { grid-column: 1; grid-row: 2; }
+    .cta-tile--map   { grid-column: 1; grid-row: 3; aspect-ratio: 4/3; }
+    .cta-cap--map    { grid-column: 1; grid-row: 4; }
+  }
+
+  /* footer */
+  footer.foot { background: var(--surface); border-top: 0.5px solid var(--border); padding: 48px 0 34px; }
+  .foot-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+  .foot-brand { font-family: 'Fraunces', serif; font-size: 17px; color: var(--ink); margin-bottom: 6px; }
+  .foot-contact { font-size: 14px; color: var(--muted); }
+  .foot-contact a { color: var(--muted); text-decoration: none; }
+  .foot-links { display: flex; gap: 22px; flex-wrap: wrap; }
+  .foot-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
+  .foot-links a:hover { color: var(--ink); }
+  .crisis { font-size: 13px; color: var(--rose-text); line-height: 1.6; padding-top: 22px; border-top: 0.5px solid var(--sand-deep); }
+  .copyright { font-size: 12px; color: var(--eyebrow); margin-top: 18px; }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 860px) {
+    .nav-links { position: absolute; top: 100%; left: 0; right: 0; background: var(--surface); flex-direction: column; align-items: stretch; gap: 0; padding: 8px 0; border-bottom: 0.5px solid var(--border); display: none; }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 12px 28px; }
+    .nav-links .btn-ghost { margin: 8px 28px; text-align: center; }
+    .nav-toggle { display: block; }
+    .hero { padding: 56px 0 52px; }
+    .hero-grid { grid-template-columns: 1fr; gap: 44px; }
+    .photo-frame { max-width: 280px; margin: 0 auto; }
+    .about-grid, .ins-grid { grid-template-columns: 1fr; gap: 36px; }
+    .steps { grid-template-columns: 1fr; }
+    .areas { columns: 2; column-gap: 28px; }
+    .strip-inner { grid-template-columns: 1fr 1fr; }
+    .strip-item:first-child, .strip-item:last-child { align-items: center; text-align: center; padding-left: 14px; padding-right: 14px; }
+    section { padding: 72px 0; }
+    .ins-items { columns: 1; }
+  }
+  @media (max-width: 480px) {
+    .areas { columns: 1; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================= NAV ============================= -->
+<header class="nav">
+  <div class="nav-inner">
+    <a href="#top" class="brand">Raurie Birch, Psy.D.</a>
+    <button class="nav-toggle" aria-label="Open menu" onclick="document.getElementById('navlinks').classList.toggle('open')">&#9776;</button>
+    <nav class="nav-links" id="navlinks">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#insurance">Insurance</a>
+      <a href="#faq">FAQ</a>
+      <!-- SimplePractice Client Portal sign-in (existing clients) -->
+      <a class="btn-ghost" href="https://raurie-birch.clientsecure.me/sign-in" target="_blank" rel="noopener">Current clients</a>
+    </nav>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- ============================= HERO ============================= -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow rise d1">Missoula, Montana &middot; in-person &amp; telehealth</p>
+        <h1 class="rise d2">Finding your way through life&rsquo;s complexities</h1>
+        <div class="hero-actions rise d3">
+          <!-- SimplePractice contact form (new inquiries) -->
+          <a class="btn btn-sage" href="https://raurie-birch.clientsecure.me/contact-widget" target="_blank" rel="noopener">Get in touch</a>
+        </div>
+      </div>
+      <div class="rise d3">
+        <div class="photo-frame">
+          <!-- TODO: drop the headshot file in the repo root as "headshot.jpg" (or update the src). Placeholder shows until then. -->
+          <img src="headshot.jpg" alt="Raurie Birch, Psy.D." onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+          <div class="photo-ph" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+            <span>Headshot (placeholder)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= TRUST STRIP ============================= -->
+<div class="strip">
+  <div class="strip-inner">
+    <div class="strip-item reveal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg>
+      <span>Telehealth &amp; in-person</span>
+    </div>
+    <div class="strip-item reveal" style="--d:.08s">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg>
+      <span>In-network with insurance</span>
+    </div>
+    <div class="strip-item reveal" style="--d:.16s">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>
+      <span>40+ states via PsyPACT</span>
+    </div>
+    <div class="strip-item reveal" style="--d:.24s">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4M12 13v4M10 15h4"/></svg>
+      <span>Accepting new clients</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============================= ABOUT ============================= -->
+<section id="about">
+  <div class="wrap">
+    <div class="about-grid">
+      <div>
+        <p class="label reveal">About</p>
+        <h2 class="section-title reveal" style="--d:.06s">A different way forward</h2>
+        <p class="reveal" style="--d:.12s">I&rsquo;ve spent my career supporting people through some of life&rsquo;s most difficult and tender moments. Before opening my private practice, I served for ten years as director of the Clinical Psychology Center at the University of Montana, and earlier worked as a psychologist in group practice, a range of healthcare settings, and therapeutic schools across New York, Chicago, and Montana.</p>
+        <p class="reveal" style="--d:.18s">I offer a warm, collaborative, and grounded approach to therapy. Rather than quick fixes, we work together to understand patterns, build emotional awareness, and make sense of your experiences in context. My work integrates evidence-based practice with deep respect for each person&rsquo;s own wisdom and capacity for growth.</p>
+        <p class="reveal" style="--d:.24s">Starting therapy can feel vulnerable, especially if you&rsquo;re used to handling things on your own. You don&rsquo;t need to have it all figured out to begin. If any of this resonates, therapy can be a space to slow down, think together, and explore where you want to go next.</p>
+      </div>
+      <div class="card reveal" style="--d:.18s">
+        <div class="cred-avatar">RB</div>
+        <div class="cred-name">Raurie Birch, Psy.D., MA</div>
+        <div class="cred-title">Licensed Clinical Psychologist</div>
+        <div class="cred-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>
+          Missoula, Montana
+        </div>
+        <div class="cred-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 5c0 9 6 15 15 15l1.5-3.5-4.5-2-2 2.5c-2.5-1.2-4.3-3-5.5-5.5l2.5-2-2-4.5z"/></svg>
+          <a href="tel:14065497325">(406) 549-7325</a>
+        </div>
+        <div class="cred-row">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h6"/></svg>
+          Licensed in Montana &amp; New York &middot; PsyPACT
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= SERVICES ============================= -->
+<section id="services" class="sand-bg">
+  <div class="wrap">
+    <h2 class="section-title reveal">Services</h2>
+    <p class="services-intro reveal" style="--d:.10s">I see individuals, couples, families, and groups, working with adolescents and adults across a wide range of concerns. Many people come to me around <em>anxiety</em>, <em>life transitions</em>, and <em>trauma</em>, among others:</p>
+    <ul class="areas reveal" style="--d:.16s">
+      <li>Anxiety</li>
+      <li>Life transitions</li>
+      <li>Trauma</li>
+      <li>Women&rsquo;s issues</li>
+      <li>Attachment issues</li>
+      <li>Depression</li>
+      <li>Grief</li>
+      <li>LGBTQIA+</li>
+      <li>Relationship issues</li>
+      <li>Pregnancy &amp; postpartum</li>
+      <li>Parenting</li>
+      <li>Family conflict</li>
+      <li>Self-esteem</li>
+      <li>Caregiver issues</li>
+      <li>Loneliness</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ============================= INSURANCE ============================= -->
+<section id="insurance">
+  <div class="wrap">
+    <div class="ins-grid">
+      <div class="ins-copy">
+        <h2 class="section-title reveal">Insurance &amp; Fees</h2>
+        <p class="reveal" style="--d:.10s">I&rsquo;m in-network with many major insurance plans. When you use your in-network benefits, you typically pay only your copay, coinsurance, or any remaining deductible &mdash; not my full session fee.</p>
+        <p class="reveal" style="--d:.18s">Before we begin, I&rsquo;ll help verify your specific benefits so you have a clear picture of any out-of-pocket cost, with no surprises along the way.</p>
+        <div class="psypact reveal" style="--d:.22s">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15 0 18M12 3c-2.5 2.5-2.5 15 0 18"/></svg>
+          <p>I&rsquo;m licensed in Montana and New York, and through PsyPACT I offer telehealth to clients in 40+ participating states. <a href="https://psypact.gov/page/psypactmap" target="_blank" rel="noopener">See if your state is included &rarr;</a></p>
+        </div>
+      </div>
+      <div class="ins-list reveal" style="--d:.16s">
+        <h3>Accepted insurance</h3>
+        <!-- TODO: confirm this list matches her current panels exactly -->
+        <ul class="ins-items">
+          <li>BlueCross BlueShield</li>
+          <li>Medicaid</li>
+          <li>Allegiance</li>
+          <li>Cigna &amp; Evernorth</li>
+          <li>Interwest</li>
+          <li>PacificSource</li>
+          <li>First Choice Health</li>
+          <li>Optum</li>
+          <li>Missoula County Insurance</li>
+          <li>UnitedHealthcare</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= FAQ ============================= -->
+<section id="faq" class="sand-bg">
+  <div class="wrap">
+    <h2 class="section-title reveal">Frequently asked questions</h2>
+    <div class="faq">
+
+      <div class="faq-item reveal" style="--d:.04s">
+        <button class="faq-q" aria-expanded="false" aria-controls="fa1"><span>How do I get started?</span><span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a" id="fa1" role="region"><div class="faq-a-inner"><div class="faq-a-text">It begins with a 15-minute call so we can get a feel for fit. From there, I&rsquo;ll send intake paperwork through the client portal, and we&rsquo;ll schedule a first session to talk things through and decide together how to move forward.</div></div></div>
+      </div>
+
+      <div class="faq-item reveal" style="--d:.08s">
+        <button class="faq-q" aria-expanded="false" aria-controls="fa2"><span>Who do you work with?</span><span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a" id="fa2" role="region"><div class="faq-a-inner"><div class="faq-a-text">I work with adolescents and adults, and see individuals, couples, families, and groups across a wide range of concerns &mdash; from anxiety and life transitions to trauma, grief, and relationship challenges.</div></div></div>
+      </div>
+
+      <div class="faq-item reveal" style="--d:.12s">
+        <button class="faq-q" aria-expanded="false" aria-controls="fa3"><span>How long are sessions, and how often?</span><span class="faq-icon" aria-hidden="true"></span></button>
+        <!-- TODO: confirm session length & frequency -->
+        <div class="faq-a" id="fa3" role="region"><div class="faq-a-inner"><div class="faq-a-text">Sessions are typically 50 minutes. Many clients meet weekly to begin, and we&rsquo;ll find a rhythm that fits your needs and goals together.</div></div></div>
+      </div>
+
+      <div class="faq-item reveal" style="--d:.16s">
+        <button class="faq-q" aria-expanded="false" aria-controls="fa4"><span>Do you offer online therapy?</span><span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a" id="fa4" role="region"><div class="faq-a-inner"><div class="faq-a-text">Yes. I see clients both in person in Missoula and online via secure telehealth. Through PsyPACT, I can also work with clients located in 40+ participating states.</div></div></div>
+      </div>
+
+      <div class="faq-item reveal" style="--d:.20s">
+        <button class="faq-q" aria-expanded="false" aria-controls="fa5"><span>Do you take insurance?</span><span class="faq-icon" aria-hidden="true"></span></button>
+        <div class="faq-a" id="fa5" role="region"><div class="faq-a-inner"><div class="faq-a-text">Yes &mdash; I&rsquo;m in-network with many major plans, including BlueCross BlueShield, Cigna &amp; Evernorth, Optum, UnitedHealthcare, PacificSource, and others. With in-network benefits, most clients pay only their copay, coinsurance, or remaining deductible. I&rsquo;ll help verify your benefits before we start.</div></div></div>
+      </div>
+
+      <div class="faq-item reveal" style="--d:.24s">
+        <button class="faq-q" aria-expanded="false" aria-controls="fa6"><span>What is your cancellation policy?</span><span class="faq-icon" aria-hidden="true"></span></button>
+        <!-- TODO: confirm cancellation policy and any fee -->
+        <div class="faq-a" id="fa6" role="region"><div class="faq-a-inner"><div class="faq-a-text">I ask for at least 24 hours&rsquo; notice to cancel or reschedule, so the time can be offered to someone else.</div></div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============================= CTA ============================= -->
+<section class="cta">
+  <div class="wrap">
+    <h2 class="reveal">Reach out</h2>
+    <p class="reveal" style="--d:.06s">New clients welcome &middot; in person in Missoula or online</p>
+    <div class="cta-btns reveal" style="--d:.12s">
+      <!-- SimplePractice contact form (new inquiries) -->
+      <a class="btn btn-light" href="https://raurie-birch.clientsecure.me/contact-widget" target="_blank" rel="noopener">Get in touch</a>
+      <a class="btn btn-outline" href="tel:14065497325">(406) 549-7325</a>
+    </div>
+    <div class="cta-cols reveal" style="--d:.16s">
+      <div class="cta-tile cta-tile--photo">
+        <img src="office.jpg" alt="Raurie Birch's therapy office in Missoula, Montana" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" />
+        <div class="cta-ph" style="display:none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 9l9-6 9 6v11a1 1 0 01-1 1H4a1 1 0 01-1-1z"/><path d="M9 21v-7h6v7"/></svg>
+        </div>
+      </div>
+      <div class="cta-tile cta-tile--map">
+        <div id="office-map" class="cta-map" role="img" aria-label="Map showing the office at 125 Bank Street, Missoula, Montana"></div>
+      </div>
+      <figcaption class="cta-cap cta-cap--photo">The office</figcaption>
+      <figcaption class="cta-cap cta-cap--map"><strong>125 Bank St, Suite 310</strong> &middot; Missoula, MT 59802</figcaption>
+    </div>
+  </div>
+</section>
+
+<!-- ============================= FOOTER ============================= -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="foot-brand">Raurie Birch Psychological Services</div>
+        <div class="foot-contact">
+          Missoula, Montana &middot; <a href="tel:14065497325">(406) 549-7325</a>
+        </div>
+      </div>
+      <div class="foot-links">
+        <!-- TODO: confirm Psychology Today profile link -->
+        <a href="https://www.psychologytoday.com/us/therapists/raurie-birch-missoula-mt/170254" target="_blank" rel="noopener">Psychology Today</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="https://www.cms.gov/nosurprises" target="_blank" rel="noopener">No Surprises Act</a>
+        <a href="good-faith-estimate.html">Good Faith Estimate</a>
+      </div>
+    </div>
+    <p class="crisis">If you&rsquo;re in crisis or experiencing a mental health emergency, call or text 988 (Suicide &amp; Crisis Lifeline), or call 911. This website and the client portal are not monitored for emergencies.</p>
+    <p class="copyright">&copy; <span id="yr"></span> Raurie Birch Psychological Services. All rights reserved.</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  // close mobile menu on link tap
+  document.querySelectorAll('#navlinks a').forEach(function(a){
+    a.addEventListener('click', function(){ document.getElementById('navlinks').classList.remove('open'); });
+  });
+
+  // smooth, exclusive FAQ accordion (height animates via CSS grid-rows)
+  var faqItems = Array.prototype.slice.call(document.querySelectorAll('.faq-item'));
+  faqItems.forEach(function(item){
+    var btn = item.querySelector('.faq-q');
+    btn.addEventListener('click', function(){
+      var willOpen = !item.classList.contains('open');
+      faqItems.forEach(function(o){
+        o.classList.remove('open');
+        o.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (willOpen){
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // scroll-reveal: fade + rise as elements enter the viewport
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in'); });
+  }
+</script>
+
+<!-- Office location map: CARTO light tiles (no commercial POI icons), single sage pin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script>
+  (function(){
+    var el = document.getElementById('office-map');
+    if (!el || typeof L === 'undefined') return;
+    var lat = 46.86927, lng = -113.99445;
+    var map = L.map(el, {
+      center: [lat, lng], zoom: 16,
+      zoomControl: false, scrollWheelZoom: false, dragging: false,
+      doubleClickZoom: false, touchZoom: false, boxZoom: false, keyboard: false,
+      attributionControl: true
+    });
+    map.attributionControl.setPrefix(false);   // remove the "Leaflet" flag (data attribution stays)
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; OpenStreetMap &copy; CARTO', maxZoom: 19
+    }).addTo(map);
+    var pin = L.divIcon({
+      className: '',
+      html: '<svg width="34" height="34" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c-3.87 0-7 3.13-7 7 0 5.05 7 13 7 13s7-7.95 7-13c0-3.87-3.13-7-7-7z" fill="#6E9384" stroke="#fff" stroke-width="1.5"/><circle cx="12" cy="9" r="2.6" fill="#fff"/></svg>',
+      iconSize: [34, 34], iconAnchor: [17, 32]
+    });
+    L.marker([lat, lng], { icon: pin, keyboard: false }).addTo(map);
+    var refit = function(){ map.invalidateSize(); map.setView([lat, lng], 16); };
+    setTimeout(refit, 200);
+    var t; window.addEventListener('resize', function(){ clearTimeout(t); t = setTimeout(refit, 200); });
+  })();
+</script>
+
+</body>
+</html>
